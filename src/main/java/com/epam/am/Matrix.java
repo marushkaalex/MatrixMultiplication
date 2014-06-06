@@ -89,14 +89,30 @@ public class Matrix {
         return matrix.size();
     }
 
-//    public Matrix multiply(Matrix factor) {
-//        if (this.getRowCount() != factor.getColumnCount()) {
-//            System.err.println("row != columns");
-//            return null;
-//        } else {
-//            Matrix result = new Matrix();
-//
-//        }
-//    }
+    public Matrix multiply(Matrix factor) {
+        if (this.getRowCount() != factor.getColumnCount()) {
+            System.err.println("cannot multiply matrix: rows != columns");
+            return null;
+        } else {
+            Matrix result = new Matrix();
+            List<Double> resRow;
+            for (int i = 0; i < this.getRowCount(); i++) {
+                resRow = new ArrayList<Double>();
+                for (int j = 0; j < factor.getColumnCount(); j++) {
+                    resRow.add(rowXcolumn(this.getRow(i + 1), factor.getColumn(j + 1)));
+                }
+                result.addRow(resRow);
+            }
+            return result;
+        }
+    }
+
+    private Double rowXcolumn(List<Double> row, List<Double> column) {
+        double result = 0d;
+        for (int i = 0; i < row.size(); i++) {
+            result += row.get(i) * column.get(i);
+        }
+        return new Double(result);
+    }
 }
 
