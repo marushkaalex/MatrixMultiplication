@@ -2,12 +2,15 @@ package com.epam.am;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 /**
  * Created by Alexander on 06.06.14.
  */
 public class Matrix {
 
+    private static final double RANDOM_MAX = 100d;
+    private static final double RANDOM_MIN = -100d;
     private List<List<Double>> matrix;
     private int columnCount;
 
@@ -21,6 +24,22 @@ public class Matrix {
     public Matrix() {
         matrix = new ArrayList<List<Double>>();
         columnCount = 0;
+    }
+
+    public void randomFilling(int rows, int columns) {
+        if (getColumnCount() != 0) {
+            System.err.println("you can not use randomFilling: the matrix have been filled");
+        } else {
+            List<Double> row;
+            Random random = new Random();
+            for (int i = 0; i < rows; i++) {
+                row = new ArrayList<Double>();
+                for (int j = 0; j < columns; j++) {
+                    row.add(random.nextDouble() * (RANDOM_MAX - RANDOM_MIN + 1) + RANDOM_MIN);
+                }
+                addRow(row);
+            }
+        }
     }
 
     public List<List<Double>> getMatrixAsList() {
@@ -90,7 +109,7 @@ public class Matrix {
     }
 
     public Matrix multiply(Matrix factor) {
-        if (this.getRowCount() != factor.getColumnCount()) {
+        if (this.getColumnCount() != factor.getRowCount()) {
             System.err.println("cannot multiply matrix: rows != columns");
             return null;
         } else {
